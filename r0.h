@@ -1,4 +1,4 @@
-#define VERSION "0.7"
+#define VERSION "0.8"
 
 #include <unistd.h>
 #include <sys/types.h>
