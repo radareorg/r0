@@ -244,9 +244,9 @@ static int cmd_resize(char *arg) {
 		tail = len-curseek;
 		if((buf=malloc(tail))) { // XXX: Use block
 			io_seek(curseek, SEEK_SET);
-			io_read(buf, tail);
+			(void)io_read(buf, tail);
 			io_seek(curseek+n, SEEK_SET);
-			io_write(buf, tail);
+			(void)io_write(buf, tail);
 			free (buf);
 		} else perror("malloc");
 		break;
