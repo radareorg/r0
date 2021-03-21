@@ -1,4 +1,4 @@
-/* bdiff - MIT - Copyright 2010-2013 - pancake */
+/* bdiff - MIT - Copyright 2010-2021 - pancake */
 /* Adapted code from:
 
  bdiff.c - efficient binary diff extension for Mercurial
@@ -355,6 +355,6 @@ int main(int argc, const char **argv) {
 		if(bdiff(argv[1], argv[2]) == -1)
 			fprintf(stderr, "Out of memory\n");
 		else ret = 0;
-	} else fprintf(stderr, "bdiff [file] [file2] > patch.ired\n");
+	} else fprintf(stderr, "r0d [file] [file2] > patch.ired\n");
 	return ret;
 }
