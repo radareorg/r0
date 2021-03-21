@@ -22,8 +22,8 @@ function hash {
 
 function btest {
 	cp $1 tmp
-	../bdiff $1 $2 > tmp.ired
-	../ired -n tmp < tmp.ired
+	../r0d $1 $2 > tmp.r0
+	../r0 -n tmp < tmp.r0
 	test `hash tmp` = `hash $2`
 	ret=$?
 	echo $ret $1 $2
@@ -32,7 +32,7 @@ function btest {
 			diff -u $2 tmp
 		fi
 	fi
-#/	rm -f tmp.ired tmp
+#/	rm -f tmp.r0 tmp
 }
 
 (cd .. && make -s)

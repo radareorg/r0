@@ -6,10 +6,10 @@ CFLAGS+=-O2 -Wall
 PREFIX?=/usr/local
 DESTDIR?=
 
-all: r0 bdiff
+all: r0 r0d
 
-bdiff: bdiff.o
-	${CC} ${CFLAGS} bdiff.o -o bdiff
+r0d: r0d.o
+	${CC} ${CFLAGS} r0d.o -o r0d
 
 r0.o: calc.c cmd.c io.c util.c hexparse.c
 
@@ -64,20 +64,20 @@ loc:
 	@wc -l *.c *.h | grep total
 
 clean:
-	rm -f r0 r0.o bdiff bdiff.o
+	rm -f r0 r0.o r0d r0d.o
 	rm -f r0.x86 r0.arm r0.wasm r0.js
 
 install:
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f r0 ${DESTDIR}${PREFIX}/bin
-	cp -f bdiff ${DESTDIR}${PREFIX}/bin
-	cp -f vr0 ${DESTDIR}${PREFIX}/bin
+	cp -f r0d ${DESTDIR}${PREFIX}/bin
+	cp -f r0v ${DESTDIR}${PREFIX}/bin
 	mkdir -p ${DESTDIR}${PREFIX}/share/man/man1
 	cp -f r0.1 ${DESTDIR}${PREFIX}/share/man/man1
-	cp -f vr0.1 ${DESTDIR}${PREFIX}/share/man/man1
+	cp -f r0v.1 ${DESTDIR}${PREFIX}/share/man/man1
 
 deinstall uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/r0
-	rm -f ${DESTDIR}${PREFIX}/bin/vr0
+	rm -f ${DESTDIR}${PREFIX}/bin/r0v
 	rm -f ${DESTDIR}${PREFIX}/share/man/man1/r0.1
-	rm -f ${DESTDIR}${PREFIX}/share/man/man1/vr0.1
+	rm -f ${DESTDIR}${PREFIX}/share/man/man1/r0v.1
