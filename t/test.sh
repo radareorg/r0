@@ -9,7 +9,7 @@ else
 fi
 
 
-md5sum -h 2>/dev/null
+echo |md5sum 2>/dev/null
 if [ $? = 0 ]; then
 	md5=md5sum
 else
