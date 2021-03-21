@@ -244,10 +244,13 @@ static int cmd_resize(char *arg) {
 		tail = len-curseek;
 		if((buf=malloc(tail))) { // XXX: Use block
 			io_seek(curseek, SEEK_SET);
-			(void)io_read(buf, tail);
-			io_seek(curseek+n, SEEK_SET);
-			(void)io_write(buf, tail);
-			free (buf);
+			i = io_read(buf, tail);
+			if (i > 0) {
+				io_seek(curseek+n, SEEK_SET);
+				if (io_write(buf, tail) < 1)
+					perror ("write");
+				free (buf);
+			}
 		} else perror("malloc");
 		break;
 	case '-':
