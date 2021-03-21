@@ -16,11 +16,11 @@ else
 	md5=md5
 fi
 
-function hash {
+hash() {
 	$md5 $1 | awk '{print $1}'
 }
 
-function btest {
+btest() {
 	cp $1 tmp
 	../r0d $1 $2 > tmp.r0
 	../r0 -n tmp < tmp.r0
