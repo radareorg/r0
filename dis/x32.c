@@ -1939,6 +1939,7 @@ static void print_arg(char *_ip, struct instr *instr, int i, int bits) {
 
 //    if (arg->string[0]) return; /* someone wants to print something special */
 
+	*out = 0;
     if (arg->type >= AL && arg->type <= BH)
         get_reg8(out, arg->type-AL, 0);
     else if (arg->type >= AX && arg->type <= DI)
