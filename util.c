@@ -25,8 +25,8 @@ static void print_fmt(const ut8 *buf, char *fmt, unsigned int len) {
 		for(;(*fmt||rep);fmt++) {
 			up = rep?rep:*fmt;
 			switch(up) {
-			case 'i': if(len>3) printf("%d\n", (u(buf[0]&0xff)<<24 | (u(buf[1])<<16) | (buf[2]<<8) | buf[3])); inc=4; break;
-			case 'I': if(len>3) printf("%d\n", ((u(buf[3])<<24) | (u(buf[2])<<16) | (u(buf[1])<<8) | buf[0])); inc=4; break;
+			case 'i': if(len>3) printf("%d\n", (int)(u(buf[0]&0xff)<<24 | (u(buf[1])<<16) | (buf[2]<<8) | buf[3])); inc=4; break;
+			case 'I': if(len>3) printf("%d\n", (int)((u(buf[3])<<24) | (u(buf[2])<<16) | (u(buf[1])<<8) | buf[0])); inc=4; break;
 			case 's': if(len>1) printf("%d\n", (buf[0]<<8 | buf[1])); inc=2; break;
 			case 'S': if(len>1) printf("%d\n", (buf[1]<<8 | buf[0])); inc=2; break;
 			case 'o': if(len>0) printf("0%o\n", buf[0]); inc=1; break;
