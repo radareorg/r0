@@ -1,7 +1,9 @@
 R0 stands for the independent raw editor
 ==========================================
 
-red aims to be a minimalistic reimplementation of the radare shell
+[![ci](https://github.com/radareorg/r0/actions/workflows/ci.yml/badge.svg)](https://github.com/radareorg/r0/actions/workflows/ci.yml)
+
+r0 aims to be a minimalistic reimplementation of the radare shell
 without much complexity and relaying all the extensibility to external
 applications trying to keep the source as small as possible.
 
@@ -12,36 +14,44 @@ AUTHOR
 COMMANDS
 ========
 
-	? is for help   get help or evaluate numeric expression
-	/ search        search strings or hexpairs
-	!cmd            run command from shell
-	x hexdump       hexdump
-	X dword dump    hexpair dump
-	> file          dump current block to file
-	< file          slurp file into current block
-	w "string\x00"  write string
-	w 023839400     write hexpairs
-	b 30            set block size
-	s addr          seek address
-	r [size|-rmv]   get filesize, truncate file to size, or -remove bytes
-	p [bwWdDqQiIF.] print formatted the current block
-	q               quit
-
+```
+[0x00000000]> ?
+s[+-addr]     seek to relative or absolute address
+b[+-size]     change block size
+w[hex|"str"]  write hexpair or string
+/[hex|"str"]  search hexpair or string
+x[size]       hexdump
+d[size]       disassemble n bytes
+X[size]       hexpair dump
+p[fmt]        print formatted current block ('p' for help)
+d[size]       disasemble
+r[+-[num]]    truncate or -remove N bytes
+.[file]       interpret file
+<[file]       load file in current seek
+>[file]       dump current block to file
+!cmd          run shell command
+?expr         calculate numeric expression
+q             quit
+[0x00000000]>
+```
 
 WORK IN PROGRESS
 ================
 print command
-	b/w/d/q   byte, word, dword, qword (little endian)
-	B/W/D/Q   byte, word, dword, qword (big endian)
-	i/I/f/F   int32 (lil, big), float (lil, big)
-	z/Z       zero-terminatted strings (ascii, widechar)
-	./:       skip 1 or 4 chars
-	*         repeat last value until death
+
+```
+[0x00000000]> p?
+ob/wW/dD/qQ  byte (oct,hex), word, dword, qword (lil, big endian)
+i/I/f/F      int32 (lil, big), float (lil, big)
+s/S          short int16 (lil, big)
+z/Z          zero-terminatted string (ascii, wide-ascii)
+./:/*        skip 1 or 4 chars, repeat last format instead of cycle
+```
 
 PORTABILITY
 ===========
 r0 is known to build and run on several OS.
-- GNU, Linux, OSX, Windows (mingw), cygwin, Solaris, BSD, ...
+- GNU, Linux, OSX, Windows (mingw), DOS, cygwin, Solaris, BSD, ...
 
 TODO:
 =====
