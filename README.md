@@ -1,4 +1,4 @@
-IRED stands for the independent raw editor
+R0 stands for the independent raw editor
 ==========================================
 
 red aims to be a minimalistic reimplementation of the radare shell
@@ -40,7 +40,7 @@ print command
 
 PORTABILITY
 ===========
-ired is known to build and run on several OS.
+r0 is known to build and run on several OS.
 - GNU, Linux, OSX, Windows (mingw), cygwin, Solaris, BSD, ...
 
 TODO:

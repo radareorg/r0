@@ -19,7 +19,7 @@ static int red_cmd(char *cmd); // XXX : recursive depenency
 #define BUFSZ 128*1024
 #endif
 
-#include "ired.h"
+#include "r0.h"
 #include "util.c"
 #include "calc.c"
 #include "cmd.c"
@@ -64,7 +64,7 @@ static int red_cmd(char *cmd) {
 #if USE_DISASM 
 	case 'd': return cmd_disasm(arg); break;
 #else
-	case 'd': return cmd_system("echo X | ired -n $BLOCK | rasm2 -o $OFFSET -D - |head -n $(($LINES-1))");
+	case 'd': return cmd_system("echo X | r0 -n $BLOCK | rasm2 -o $OFFSET -D - |head -n $(($LINES-1))");
 #endif
 	case 'p': return cmd_print(arg); break;
 	case 'r': return cmd_resize(arg); break;
@@ -72,7 +72,7 @@ static int red_cmd(char *cmd) {
 	case 'X': return cmd_bytedump(arg); break;
 	case 'w': return cmd_write(arg); break;
 	case '!': return cmd_system(arg); break;
-	case 'V': return cmd_system("vired $FILE"); break;
+	case 'V': return cmd_system("vr0 $FILE"); break;
 	case '?': return cmd_help(arg); break;
 	default: fprintf(stderr, "? %s\n", cmd);
 	}
@@ -131,7 +131,7 @@ static int red_open(char *file) {
 }
 
 static int red_help() {
-	puts("ired [-qhnv] [-c cmd] [-i script] [-|file ..]");
+	puts("r0 [-qhnv] [-c cmd] [-i script] [-|file ..]");
 	return 0;
 }
 
