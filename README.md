@@ -1,5 +1,4 @@
-R0 stands for the independent raw editor
-==========================================
+# R0 stands for radare-zero
 
 [![ci](https://github.com/radareorg/r0/actions/workflows/ci.yml/badge.svg)](https://github.com/radareorg/r0/actions/workflows/ci.yml)
 
@@ -7,12 +6,20 @@ r0 aims to be a minimalistic reimplementation of the radare shell
 without much complexity and relaying all the extensibility to external
 applications trying to keep the source as small as possible.
 
-AUTHOR
-------
-	pancake<nopcode.org>
+## Features
 
-COMMANDS
-========
+* Small footprint (50KB)
+* Minimalistic Intel and ARM disassemblers (90KB)
+* Minimum set of commands to inspect and manipulate binaries
+* r0d does binary diffing and patching files
+* r0v is the visual interactive frontend of r0
+* Very portable: Compiles for wasm, js.. even for MS-DOS!
+* Single binary without any external dependency
+
+## AUTHOR
+* pancake<nopcode.org>
+
+## COMMANDS
 
 ```
 [0x00000000]> ?
