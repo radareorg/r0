@@ -75,7 +75,7 @@ enum argtype {
 struct op {
     word opcode;
     byte subcode;
-    char size;  /* 0 if not sized, -1 if size == bitness */
+    signed char size;  /* 0 if not sized, -1 if size == bitness */
     char name[16];
     enum argtype arg0; /* usually dest */
     enum argtype arg1; /* usually src */
@@ -111,8 +111,6 @@ enum disptype {
     DISP_REG  = 3,      /* register, i.e. mod == 3 */
 };
 
-extern const char seg16[6][3];
-
 struct arg {
     char string[32];
     dword ip;
@@ -128,7 +126,7 @@ struct instr {
     enum disptype modrm_disp;
     int8_t modrm_reg; /* This is a little ugly, but 16 is IP and -1 is none (aka IZ). */
     byte sib_scale;
-    char sib_index;
+    signed char sib_index;
     int usedmem:1;  /* used for error checking */
 
     int vex:1;

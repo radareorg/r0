@@ -1851,7 +1851,7 @@ static int get_arg(dword ip, const byte *p, struct arg *arg, struct instr *instr
     }
 }
 
-const char seg16[6][3] = {
+static const char seg16[6][3] = {
     "es", "cs", "ss", "ds", "fs", "gs"
 };
 
@@ -1878,7 +1878,7 @@ static const char reg64[17][4] = {
 static void get_seg16(char *out, byte reg) {
     if (asm_syntax == GAS)
         strcat(out, "%");
-    strcat(out, seg16[reg]);
+    strcat(out, (const char *)seg16[reg]);
 }
 
 static void get_reg8(char *out, byte reg, int rex) {
@@ -1887,7 +1887,7 @@ static void get_reg8(char *out, byte reg, int rex) {
     strcat(out, rex ? reg8_rex[reg] : reg8[reg]);
 }
 
-static void get_reg16(char *out, char reg, int size) {
+static void get_reg16(char *out, signed char reg, int size) {
     if (reg != -1) {
         if (asm_syntax == GAS)
             strcat(out, "%");
