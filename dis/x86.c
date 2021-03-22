@@ -570,7 +570,7 @@ unsigned int disasm(const unsigned char *__bytes, unsigned int max, unsigned lon
 	instructions = standard_instructions;
 	if (opcode == 0x0F) { // Extended opcodes
 		if (max < 2 || *bytes == 0x0F || *bytes == 0xA6 || *bytes == 0xA7 || *bytes == 0xF7 || *bytes == 0xFF) {
-return -1;
+			return -1;
 		}
 
 		instructions = extended_instructions;
@@ -659,98 +659,98 @@ OUTPUT:
 		}
 
 		switch (instructions[opcode].arguments[i]) {
-			case RM:
-				if (modRM_mod != 3) {
-					switch (instructions[opcode].size) {
-						case BYTE:
-							strcat(output, "BYTE PTR ");
-							break;
-						case WORD:
-							strcat(output, "WORD PTR ");
-							break;
-						case DWORD:
-							strcat(output, "DWORD PTR ");
-							break;
-						case QWORD:
-							strcat(output, "QWORD PTR ");
-							break;
-						case FWORD:
-							strcat(output, "FWORD PTR ");
-							break;
-						case XMMWORD:
-							strcat(output, "XMMWORD PTR ");
-							break;
-					}
+		case RM:
+			if (modRM_mod != 3) {
+				switch (instructions[opcode].size) {
+				case BYTE:
+					strcat(output, "BYTE PTR ");
+					break;
+				case WORD:
+					strcat(output, "WORD PTR ");
+					break;
+				case DWORD:
+					strcat(output, "DWORD PTR ");
+					break;
+				case QWORD:
+					strcat(output, "QWORD PTR ");
+					break;
+				case FWORD:
+					strcat(output, "FWORD PTR ");
+					break;
+				case XMMWORD:
+					strcat(output, "XMMWORD PTR ");
+					break;
 				}
+			}
 
-				strcat(output, RM_output);
-				break;
-			case R:
-				strcat(output, R_output);
-				break;
-			case IMM8:
-				sprintf(output + strlen(output), "0x%x", *bytes++);
-				break;
-			case IMM16:
-				sprintf(output + strlen(output), "0x%x", *(short *)bytes);
-				bytes += 2;
-				break;
-			case IMM32:
-				sprintf(output + strlen(output), "0x%x", *(int *)bytes);
-				bytes += 4;
-				break;
-			case REL8:
-				sprintf(output + strlen(output), "0x%x", (unsigned int) (offset + ((bytes - base) + 1) + *bytes));
+			strcat(output, RM_output);
+			break;
+		case R:
+			strcat(output, R_output);
+			break;
+		case IMM8:
+			sprintf(output + strlen(output), "0x%x", *bytes++);
+			break;
+		case IMM16:
+			sprintf(output + strlen(output), "0x%x", *(short *)bytes);
+			bytes += 2;
+			break;
+		case IMM32:
+			sprintf(output + strlen(output), "0x%x", *(int *)bytes);
+			bytes += 4;
+			break;
+		case REL8:
+			sprintf(output + strlen(output), "0x%x", (unsigned int) (offset + ((bytes - base) + 1) + *bytes));
 			bytes++;
-				break;
-			case REL16:
-				sprintf(output + strlen(output), "0x%x", (unsigned int)(offset + ((bytes - base) + 2) + *(short *)bytes));
-				bytes += 2;
-				break;
-			case REL32:
-				sprintf(output + strlen(output), "0x%x", (unsigned int)(offset + ((bytes - base) + 4) + *(int *)bytes));
-				bytes += 4;
-				break;
-			case PTR1632:
-				sprintf(output + strlen(output), "0x%x:0x%x", *(short *)(bytes + 4), *(int *)bytes);
-				bytes += 6;
-				break;
-			case AL:
-				strcat(output, "al");
-				break;
-			case EAX:
-				strcat(output, "eax");
-				break;
-			case ES:
-				strcat(output, "es");
-				break;
-			case CS:
-				strcat(output, "cs");
-				break;
-			case SS:
-				strcat(output, "ss");
-				break;
-			case DS:
-				strcat(output, "ds");
-				break;
-			case ONE:
-				strcat(output, "1");
-				break;
-			case CL:
-				strcat(output, "cl");
-				break;
-			case XMM0:
-				strcat(output, "xmm0");
-				break;
-			case BND0:
-				strcat(output, "bnd0");
-				break;
-			case BAD:
-				bytes++;
-				break;
-			case MM0:
-				strcat(output, "mm0");
-				break;
+			break;
+		case REL16:
+			sprintf(output + strlen(output), "0x%x", (unsigned int)(offset + ((bytes - base) + 2) + *(short *)bytes));
+			bytes += 2;
+			break;
+		case REL32:
+			sprintf(output + strlen(output), "0x%x", (unsigned int)(offset + ((bytes - base) + 4) + *(int *)bytes));
+			bytes += 4;
+			break;
+		case PTR1632:
+			sprintf(output + strlen(output), "0x%x:0x%x", *(short *)(bytes + 4), *(int *)bytes);
+			bytes += 6;
+			break;
+		case AL:
+			strcat(output, "al");
+			break;
+		case EAX:
+			strcat(output, "eax");
+			break;
+		case ES:
+			strcat(output, "es");
+			break;
+		case CS:
+			strcat(output, "cs");
+			break;
+		case SS:
+			strcat(output, "ss");
+			break;
+		case DS:
+			strcat(output, "ds");
+			break;
+		case ONE:
+			strcat(output, "1");
+			break;
+		case CL:
+			strcat(output, "cl");
+			break;
+		case XMM0:
+			strcat(output, "xmm0");
+			break;
+		case BND0:
+			strcat(output, "bnd0");
+			break;
+		case BAD:
+			bytes++;
+			break;
+		case MM0:
+			strcat(output, "mm0");
+			break;
 		}
 	}
 
@@ -758,5 +758,5 @@ OUTPUT:
 		return bytes - base;
 	}
 
-return -1;
+	return -1;
 }

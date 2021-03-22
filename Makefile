@@ -23,7 +23,7 @@ r0.8086:
 	$(CC) -fsanitize=address -g -DUSE_DISASM_8086=1 r0.c -o r0.8086
 
 r0.x86:
-	$(CC) -fsanitize=address -g -DUSE_DISASM_X32=1 r0.c -o r0.x86
+	$(CC) -DUSE_DISASM_X32=1 -Os r0.c -o r0.x86
 	# $(CC) -fsanitize=address -g -DUSE_DISASM_X86=1 r0.c -o r0.x86
 
 r0.com: # msdos

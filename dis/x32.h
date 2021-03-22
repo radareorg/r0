@@ -134,9 +134,6 @@ struct instr {
     int vex_256:1;
 };
 
-extern int get_instr(dword ip, const byte *p, struct instr *instr, int bits);
-extern void print_instr(char *ip, const byte *p, int len, byte flags, struct instr *instr, const char *comment, int bits);
-
 /* 66 + 67 + seg + lock/rep + 2 bytes opcode + modrm + sib + 4 bytes displacement + 4 bytes immediate */
 #define MAX_INSTR       16
 
