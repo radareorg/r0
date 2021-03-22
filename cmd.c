@@ -83,6 +83,7 @@ static int cmd_system(char *arg) {
 	unlink(".curblk");
 	return 1;
 }
+
 #if USE_DISASM
 static int cmd_disasm(const char *arg) {
 	char output[256];
@@ -161,11 +162,15 @@ static int cmd_search(const char *arg) {
 	return 1;
 }
 
+static inline ut64 calc(const char *s) {
+	return r_num_calc (NULL, s, NULL);
+}
+
 static int cmd_bsize(char *arg) {
 	if(!*arg) printf("%d\n", bsize);
-	else if(*arg=='+') bsize += (int)str2ut64(arg+1);
-	else if(*arg=='-') bsize -= (int)str2ut64(arg+1);
-	else bsize = str2ut64(arg);
+	else if(*arg=='+') bsize += (int)calc(arg+1);
+	else if(*arg=='-') bsize -= (int)calc(arg+1);
+	else bsize = calc(arg);
 	if(bsize<1) bsize = 1;
 	obsize = bsize;
 	return 1;
@@ -173,9 +178,9 @@ static int cmd_bsize(char *arg) {
 
 static int cmd_seek(char *arg) {
 	if(!*arg) printf("%"LLF"d\n", curseek);
-	else if(*arg=='+') curseek += str2ut64(arg+1);
-	else if(*arg=='-') curseek -= str2ut64(arg+1);
-	else curseek = str2ut64(arg);
+	else if(*arg=='+') curseek += calc(arg+1);
+	else if(*arg=='-') curseek -= calc(arg+1);
+	else curseek = calc(arg);
 	io_seek((oldseek=curseek), 0);
 	return 1;
 }
@@ -278,7 +283,7 @@ static int cmd_resize(char *arg) {
 		printf("%"LLF"d\n", (ut64)io_seek(0, SEEK_END));
 		break;
 	case '+': // XXX: needs cleanup
-		n = str2ut64(arg+1);
+		n = calc(arg+1);
 		len = (ut64)io_seek(0, SEEK_END);
 		tail = len-curseek;
 		if((buf=malloc(tail))) { // XXX: Use block
@@ -295,7 +300,7 @@ static int cmd_resize(char *arg) {
 	case '-':
 		buf = malloc(bsize);
 		if(buf) {
-			n = str2ut64(arg+1);
+			n = calc(arg+1);
 			for(i=0;!ret;i+=len) {
 				io_seek(curseek+n+i, SEEK_SET);
 				if((len = io_read(buf, bsize))>0) {
@@ -310,7 +315,7 @@ static int cmd_resize(char *arg) {
 		} else perror("malloc");
 		break;
 	default:
-		ret = io_truncate(str2ut64(arg));
+		ret = io_truncate(calc(arg));
 	}
 	if(ret<0) perror("truncate");
 	return 1;

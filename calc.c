@@ -146,7 +146,7 @@ static void cin_putback (RNum *num, RNumCalc *nc, char c) {
 	nc->oc = c;
 }
 
-R_API const char *r_num_calc_index (RNum *num, const char *p) {
+R_API const char *r_num_calc_index(RNum *num, const char *p) {
 	if (num == NULL)
 		return NULL;
 	if (p) {
@@ -294,7 +294,7 @@ static void load_token(RNum *num, RNumCalc *nc, const char *s) {
 	nc->calc_err = NULL;
 }
 
-R_API ut64 r_num_calc (RNum *num, const char *str, const char **err) {
+R_API ut64 r_num_calc(RNum *num, const char *str, const char **err) {
 	RNumCalcValue n;
 	RNumCalc *nc, nc_local;
 	if (!str || !*str)
@@ -327,20 +327,3 @@ R_API ut64 r_num_calc (RNum *num, const char *str, const char **err) {
 	} else if (num) num->fvalue = (double)n.n;
 	return n.n;
 }
-
-#if 0
-int main(int argc, char* argv[]) {
-	RNumCalcValue n;
-	RNumCalc nc;
-	while (!feof (stdin)) {
-		get_token (nc);
-		if (nc.curr_tok == RNCEND) break;
-		if (nc.curr_tok == RNCPRINT) continue;
-		n = expr (num, nc, 0);
-		if (n.d == ((double)(int)n.d))
-			printf ("%llx\n", n.n);
-		else printf ("%lf\n", n.d);
-	}
-	return nc->errors;
-}
-#endif

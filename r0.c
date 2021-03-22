@@ -93,9 +93,9 @@ static int red_prompt() {
 			at2 = strchr(++at, ':');
 			if(at2) {
 				*at2 = 0; at2++;
-				if(*at2) bsize = (int)str2ut64(at2);
+				if(*at2) bsize = (int)calc(at2);
 			}
-			if(*at) curseek = str2ut64(at);
+			if(*at) curseek = calc(at);
 		}
 	}
 	at = line;
