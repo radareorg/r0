@@ -1,5 +1,5 @@
 #!/bin/sh
-# vired: the visual raw editor
+# r0v: the visual raw editor
 # copyleft: pancake at nopcode dot org @ 2009-2013
 
 PATH=.:$PATH
@@ -11,8 +11,8 @@ bye() {
 }
 case "$1" in
 -) : ; ;;
-'') echo "vired [-hv] [file]" ; exit 1 ; ;;
-*) $0 - | ired -n $@ ; bye ; ;;
+'') echo "r0v [-hv] [file]" ; exit 1 ; ;;
+*) $0 - | r0 -n $@ ; bye ; ;;
 esac
 
 ttyset=`stty -g`
@@ -53,7 +53,7 @@ while : ; do
   echo '!clear'
   # autobs
   case $P in
-  #'d') echo '!echo X | ired -n $| rasm2 -o $OFFSET -vd -|head -n '$LINES ;  ;;
+  #'d') echo '!echo X | r0 -n $| rasm2 -o $OFFSET -vd -|head -n '$LINES ;  ;;
   d) echo d ;;
   *) echo x ;;
   esac
