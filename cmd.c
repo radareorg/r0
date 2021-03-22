@@ -49,6 +49,40 @@ static int cmd_print(char *arg) {
 	return 1;
 }
 
+static int cmd_system(char *arg) {
+	int len = bsize;
+	char str[1024];
+	ut8 *buf;
+	if(strstr(arg, "BLOCK")) {
+		FILE *fd = fopen(".curblk", "wb");
+		if(fd) {
+			if((buf = getcurblk("", &len))) {
+				setenv("BLOCK", ".curblk", 1);
+				fwrite(buf, len, 1, fd);
+				free(buf);
+			}
+			fclose(fd);
+		}
+	}
+	if(strstr(arg, "BSIZE")) {
+		sprintf(str, "%d", len);
+		setenv("BSIZE", str, 1);
+	}
+	if(strstr(arg, "OFFSET")) {
+		sprintf(str, "%"LLF"d", curseek);
+		setenv("OFFSET", str, 1);
+	}
+	if(strstr(arg, "XOFFSET")) {
+		sprintf(str, "0x%"LLF"x", curseek);
+		setenv("XOFFSET", str, 1);
+	}
+#if HAVE_SYSTEM
+	if(io_system(arg)<0)
+		perror("system");
+#endif
+	unlink(".curblk");
+	return 1;
+}
 #if USE_DISASM
 static int cmd_disasm(const char *arg) {
 	char output[256];
@@ -79,6 +113,11 @@ static int cmd_disasm(const char *arg) {
 	}
 	free(buf);
 	return 1;
+}
+#else
+static int cmd_disasm(const char *arg) {
+	return cmd_system("echo X | r0 -n $BLOCK | rasm2 -o $OFFSET -D -"); // |head -n $(($LINES-1))");
+	
 }
 #endif
 
@@ -277,37 +316,3 @@ static int cmd_resize(char *arg) {
 	return 1;
 }
 
-static int cmd_system(char *arg) {
-	int len = bsize;
-	char str[1024];
-	ut8 *buf;
-	if(strstr(arg, "BLOCK")) {
-		FILE *fd = fopen(".curblk", "wb");
-		if(fd) {
-			if((buf = getcurblk("", &len))) {
-				setenv("BLOCK", ".curblk", 1);
-				fwrite(buf, len, 1, fd);
-				free(buf);
-			}
-			fclose(fd);
-		}
-	}
-	if(strstr(arg, "BSIZE")) {
-		sprintf(str, "%d", len);
-		setenv("BSIZE", str, 1);
-	}
-	if(strstr(arg, "OFFSET")) {
-		sprintf(str, "%"LLF"d", curseek);
-		setenv("OFFSET", str, 1);
-	}
-	if(strstr(arg, "XOFFSET")) {
-		sprintf(str, "0x%"LLF"x", curseek);
-		setenv("XOFFSET", str, 1);
-	}
-#if HAVE_SYSTEM
-	if(io_system(arg)<0)
-		perror("system");
-#endif
-	unlink(".curblk");
-	return 1;
-}
