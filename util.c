@@ -101,7 +101,7 @@ static unsigned int hexstr2raw(ut8 *arg) {
 static ut8 *getcurblk(const char *arg, int *len) {
 	ut8 *buf = NULL;
 	if(*arg) {
-		*len = (int)str2ut64((const char *)arg);
+		*len = (int)calc((const char *)arg);
 		if(*len<1) *len = bsize;
 	}
 	if(*len>0 && (buf = malloc(*len)) != NULL) {

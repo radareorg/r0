@@ -19,6 +19,7 @@ static int red_cmd(char *cmd); // XXX : recursive depenency
 #define BUFSZ 128*1024
 #endif
 
+ut64 calc(const char *str);
 #include "r0.h"
 #include "util.c"
 #include "calc.c"

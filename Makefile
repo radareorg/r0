@@ -7,8 +7,8 @@ PREFIX?=/usr/local
 DESTDIR?=
 
 ARCH=X32
-ARCH=ARM
-ARCH=NONE
+#ARCH=ARM
+#ARCH=NONE
 
 all: r0 r0d
 

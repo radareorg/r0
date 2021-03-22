@@ -327,3 +327,8 @@ R_API ut64 r_num_calc(RNum *num, const char *str, const char **err) {
 	} else if (num) num->fvalue = (double)n.n;
 	return n.n;
 }
+
+R_API ut64 calc(const char *str) {
+	return r_num_calc (NULL, str, NULL);
+}
+
