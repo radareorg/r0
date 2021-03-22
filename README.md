@@ -58,7 +58,7 @@ z/Z          zero-terminatted string (ascii, wide-ascii)
 PORTABILITY
 ===========
 r0 is known to build and run on several OS.
-- GNU, Linux, OSX, Windows (mingw), DOS, cygwin, Solaris, BSD, ...
+- GNU/Hurd, Plan9, DOS, BSD, Solaris, Linux, macOS, Windows, Wasm, Javascript, ...
 
 TODO:
 =====
