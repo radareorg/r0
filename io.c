@@ -1,4 +1,4 @@
-/* io.c - MIT - Copyleft 2009-2020 -- pancake */
+/* io.c - MIT - Copyleft 2009-2021 -- pancake */
 
 #ifndef HAVE_FTRUNCATE
 #define HAVE_FTRUNCATE 1
@@ -8,7 +8,7 @@
 #if DEMO
 int bo = 0;
 char b[4096];
-static inline int io_open(char *file) {
+static inline int io_open(const char *file) {
 	memset (b, 0, sizeof (b));
 	return 10;
 }
@@ -29,7 +29,7 @@ static int io_seek (int x,int y) {
 
 #include <windows.h>
 static HANDLE _fd = NULL;
-static inline int io_open(char *file) {
+static inline int io_open(const char *file) {
 	_fd = CreateFile(file, GENERIC_READ | GENERIC_WRITE, 
 		FILE_SHARE_READ|FILE_SHARE_WRITE,
 		NULL, OPEN_ALWAYS, 0, NULL);
@@ -55,7 +55,7 @@ static inline int io_read(void *x, int y) {
 #define _GNU_SOURCE
 #include <fcntl.h>
 static int _fd = -1;
-static inline int io_open(char *file) {
+static inline int io_open(const char *file) {
 	_fd = open(file, O_RDWR|O_CREAT, 0644);
 	if(_fd == -1) _fd = open(file, O_RDONLY);
 	return _fd;

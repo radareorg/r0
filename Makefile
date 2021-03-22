@@ -6,15 +6,24 @@ CFLAGS+=-O2 -Wall
 PREFIX?=/usr/local
 DESTDIR?=
 
+ARCH=X32
+# ARCH=ARM
+# ARCH=NONE
+
 all: r0 r0d
+
+r0: r0.o
+	${CC} ${CFLAGS} r0.o -o r0
+
+r0.o: calc.c cmd.c io.c util.c hexparse.c
+	$(CC) -c r0.c -DUSE_DISASM_$(ARCH)=1
 
 r0d: r0d.o
 	${CC} ${CFLAGS} r0d.o -o r0d
 
-r0.o: calc.c cmd.c io.c util.c hexparse.c
 
 r0.js:
-	emcc -Os -o r0.js r0.c
+	emcc -DUSE_DISASM_X32=1 -Os -o r0.js r0.c
 
 r0.arm:
 	$(CC) -DUSE_DISASM_ARM=1 r0.c -o r0.arm
@@ -34,9 +43,6 @@ r0.wasm:
 
 r0.bc:
 	clang -emit-llvm -o r0.bc -c r0.c
-
-r0: r0.o
-	${CC} ${CFLAGS} r0.o -o r0
 
 dist:
 	@if [ -z "${VERSION}" ]; then echo "Try: make dist VERSION=0.5" ; exit 1 ; fi

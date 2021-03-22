@@ -107,7 +107,7 @@ static int red_prompt() {
 	return red_cmd(at);
 }
 
-static int red_open(char *file) {
+static int r0_open(const char *file) {
 	int ret = io_open(file);
 	if(ret != -1) {
 		oldseek = 0;
@@ -142,22 +142,25 @@ int main(int argc, char **argv) {
 	scriptn = 0;
 	scripts = malloc(sizeof(const char*)*argc);
 	cmds = malloc(sizeof(const char*)*argc);
-	if(argc>1 && argv[1])
-	for(i=1; i<argc; i++) {
-		if(argv[i] && argv[i][0]=='-')
-			switch(argv[i][1]) {
-			case 'q': earlyquit = 1; break;
-			case 'i': scripts[scriptn++] = argv[++i]; break;
-			case 'c': cmds[cmdn++] = argv[++i]; break;
-			case 'n': verbose = 0; break;
-			case 'v': puts(VERSION); ret = 0; break;
-			case 'h': ret = red_help(); break;
-			case 0x0: red_slurpin(); ret = 0; break;
-		} else {
-			if (!argv[i]) break;
-			ret = red_open(argv[i]);
+	if(argc>1 && argv[1]) {
+		for(i=1; i<argc; i++) {
+			if(argv[i] && argv[i][0]=='-')
+				switch(argv[i][1]) {
+				case 'q': earlyquit = 1; break;
+				case 'i': scripts[scriptn++] = argv[++i]; break;
+				case 'c': cmds[cmdn++] = argv[++i]; break;
+				case 'n': verbose = 0; break;
+				case 'v': puts(VERSION); ret = 0; break;
+				case 'h': ret = red_help(); break;
+				case 0x0: red_slurpin(); ret = 0; break;
+			} else {
+				if (!argv[i]) break;
+				ret = r0_open(argv[i]);
+			}
 		}
-	} else ret = red_help();
+	} else {
+		ret = red_help();
+	}
 	free(scripts);
         return ret;
 }
