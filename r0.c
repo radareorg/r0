@@ -11,7 +11,7 @@ static int cmdn = 0;
 static char **cmds = 0;
 static ut64 oldseek, curseek = 0LL;
 static int obsize, bsize = 256;
-static int red_cmd(char *cmd); // XXX : recursive depenency
+static int r0_cmd(char *cmd); // XXX : recursive depenency
 #if defined(__WATCOMC__)
 #define HAVE_FTRUNCATE 0
 #define BUFSZ 1024
@@ -25,7 +25,7 @@ ut64 calc(const char *str);
 #include "calc.c"
 #include "cmd.c"
 
-static void red_slurpin() {
+static void r0_slurpin() {
 	ut8 buf[BUFSZ];
 	for(;;) {
 		int len = read(0, buf, sizeof(buf));
@@ -35,14 +35,14 @@ static void red_slurpin() {
 	}
 }
 
-static int red_interpret(const char *file) {
+static int r0_interpret(const char *file) {
 	char buf[BUFSZ];
 	FILE *fd = fopen(file, "r");
 	if(fd != NULL) {
 		for(;;) {
 			if(fgets(buf, sizeof(buf), fd) == NULL)
 				break;
-			red_cmd(buf);
+			r0_cmd(buf);
 		}
 		fclose(fd);
 	} else if (file)
@@ -50,7 +50,7 @@ static int red_interpret(const char *file) {
 	return 1;
 }
 
-static int red_cmd(char *cmd) {
+static int r0_cmd(char *cmd) {
 	char *arg = cmd+1;
 	SKIPSPACES(arg);
 	switch(*cmd) {
@@ -58,7 +58,7 @@ static int red_cmd(char *cmd) {
 	case ';': case '#': break; // comment
 	case '>': return cmd_dump(arg); break;
 	case '<': return cmd_load(arg); break;
-	case '.': return red_interpret(arg); break;
+	case '.': return r0_interpret(arg); break;
 	case 's': return cmd_seek(arg); break;
 	case 'b': return cmd_bsize(arg); break;
 	case '/': return cmd_search(arg); break;
@@ -76,7 +76,7 @@ static int red_cmd(char *cmd) {
 	return 1;
 }
 
-static int red_prompt() {
+static int r0_prompt() {
 	char *at, *at2, line[BUFSZ];
 	if(verbose) {
 		printf("[0x%08"LLF"x]> ", curseek);
@@ -101,7 +101,7 @@ static int red_prompt() {
 	}
 	at = line;
 	SKIPSPACES(at);
-	return red_cmd(at);
+	return r0_cmd(at);
 }
 
 static int r0_open(const char *file) {
@@ -111,13 +111,13 @@ static int r0_open(const char *file) {
 		setenv("FILE", file, 1);
 		if(scripts)
 			for (ret=0;ret<scriptn;ret++)
-				red_interpret(scripts[ret]);
+				r0_interpret(scripts[ret]);
 		if(cmds)
 			for (ret=0;ret<cmdn;ret++)
-				red_cmd(cmds[ret]);
+				r0_cmd(cmds[ret]);
 		if(earlyquit)
 			return 0;
-		while((ret=red_prompt())>0) {
+		while((ret=r0_prompt())>0) {
 			curseek = oldseek;
 			bsize = obsize;
 		}
@@ -127,7 +127,7 @@ static int r0_open(const char *file) {
 	return ret==-1 ?1:0;
 }
 
-static int red_help() {
+static int r0_help() {
 	puts("r0 [-qhnv] [-c cmd] [-i script] [-|file ..]");
 	return 0;
 }
@@ -148,15 +148,15 @@ int main(int argc, char **argv) {
 				case 'c': cmds[cmdn++] = argv[++i]; break;
 				case 'n': verbose = 0; break;
 				case 'v': puts(VERSION); ret = 0; break;
-				case 'h': ret = red_help(); break;
-				case 0x0: red_slurpin(); ret = 0; break;
+				case 'h': ret = r0_help(); break;
+				case 0x0: r0_slurpin(); ret = 0; break;
 			} else {
 				if (!argv[i]) break;
 				ret = r0_open(argv[i]);
 			}
 		}
 	} else {
-		ret = red_help();
+		ret = r0_help();
 	}
 	free(scripts);
         return ret;
