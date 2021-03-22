@@ -3,12 +3,12 @@
 .Os
 .Th VR0 1
 .Sh NAME
-vired \- visual interactive raw editor
+r0v \- visual radare zero
 .Sh SYNOPSIS
-.Nm vired
+.Nm r0v
 .Ar file
 .Sh DESCRIPTION
-Visual mode for ired(1)
+Visual mode for r0(1)
 .Pp
 .Sh KEYS
 .Bl -tag -width Fl
@@ -17,7 +17,7 @@ seek left(-1), down(+16), up(-16), right(+1)
 .It +-*/
 change block size (+1,-1,+16,-16)
 .It :[cmd]
-input ired command
+input r0 command
 .It b
 prompt to change block size
 .It s
@@ -27,7 +27,7 @@ prompt for resize, remove command
 .It p
 change print mode
 .It :
-enter raw ired command
+enter raw r0 command
 .It ?
 show help
 .It q
@@ -35,7 +35,7 @@ quit program
 .Pp
 .Sh SEE ALSO
 .Pp
-.Xr ired(1)
+.Xr r0(1)
 .Sh AUTHORS
 .PP
 pancake <@nopcode.org>
