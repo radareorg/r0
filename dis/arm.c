@@ -34,7 +34,7 @@ struct inst_arm {
 	uint32_t (*func)(struct thumb_disasm_t*, uint32_t);
 };
 
-static char const tbl_regs[][4] = {
+static const char *tbl_regs[] = {
 	"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",
 	"fp", "ip", "sp", "lr", "pc", "cpsr"
 };
@@ -159,7 +159,7 @@ static uint16_t thumb_disasm_blocktrans(struct thumb_disasm_t *ai, uint16_t inst
 static uint16_t thumb_disasm_condbranch(struct thumb_disasm_t *ai, uint16_t inst) {
 	uint16_t offset = inst & 0x00ff;
 	snprintf (ai->str, sizeof (ai->str),
-		"b%s 0x%lx", tbl_cond[(inst >> 8) & 0x0f], ai->pc+offset);
+		"b%s 0x%x", tbl_cond[(inst >> 8) & 0x0f], ai->pc+offset);
 	ai->jmp = ai->pc + offset;
 	ai->fail = ai->pc + 4;
 	return 0;
@@ -169,7 +169,7 @@ static uint16_t thumb_disasm_uncondbranch(struct thumb_disasm_t *ai, uint16_t in
 	short offset = (inst & 0x07ff) << 1;
 	if (offset & 0x0800) offset |= 0xf000;
 	offset += 4;
-	snprintf (ai->str, sizeof (ai->str), "b 0x%lx", ai->pc+offset);
+	snprintf (ai->str, sizeof (ai->str), "b 0x%x", ai->pc+offset);
 	ai->jmp = ai->pc+offset;
 	return 0;
 }
@@ -277,7 +277,7 @@ static uint16_t thumb_disasm_movshift(struct thumb_disasm_t *ai, uint16_t inst) 
 
 static uint32_t thumb2_disasm_branchlinked(struct thumb_disasm_t *ai, uint32_t inst) {
 	uint32_t offset = (((inst & 0x07ff0000) >> 4) | ((inst & 0x000007ff) << 1)) + 4;
-	snprintf (ai->str, sizeof (ai->str), "bl 0x%lx", ai->pc+offset);
+	snprintf (ai->str, sizeof (ai->str), "bl 0x%x", ai->pc+offset);
 	ai->jmp = ai->pc+offset;
 	return 0;
 }
@@ -387,7 +387,7 @@ static uint32_t thumb2_disasm_coprocmov1(struct thumb_disasm_t *ai, uint32_t ins
 	char last[32];
 	if (opc2) snprintf (last, sizeof (last), ", #%u", opc2); else *last = 0;
 	snprintf (ai->str, sizeof (ai->str),
-		"%s%s  p%lu, #%u, %s, cr%lu, cr%lu%s", (inst & 0x00100000)?"mrc":"mcr",
+		"%s%s  p%u, #%u, %s, cr%u, cr%u%s", (inst & 0x00100000)?"mrc":"mcr",
 		(inst & 0x10000000)?"2":"", get_nibble(inst, 2), opc1,
 		tbl_regs[get_nibble(inst, 3)], get_nibble(inst, 4), get_nibble(inst, 0), last);
 	return 0;

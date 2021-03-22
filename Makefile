@@ -21,7 +21,6 @@ r0.o: calc.c cmd.c io.c util.c hexparse.c
 r0d: r0d.o
 	${CC} ${CFLAGS} r0d.o -o r0d
 
-
 r0.js:
 	emcc -DUSE_DISASM_X32=1 -Os -o r0.js r0.c
 
