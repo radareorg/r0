@@ -97,10 +97,11 @@ static int cmd_disasm(const char *arg) {
 	for(i = 0; i < len ;i++) {
 		*output = 0;
 		ilen = disasm(buf + i, len - i, curseek+i, output);
-		printf("0x%08llx ", curseek+i);
+		printf("0x%08"LLF" ", curseek+i);
 		pad = 10;
 		if (ilen > 0) {
 			pad -= ilen;
+			if (pad < 0) break;
 			for(j=i;j < i+ilen && j < len;j++)
 				printf("%02x", buf[j]);
 			i += ilen - 1;
