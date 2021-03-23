@@ -302,6 +302,8 @@ int bdiff(const char *filea, const char *fileb) {
 	la = lb = 0;
 	for(h = l.base; h != l.head; h++) {
 		if(h->a1 != la || h->b1 != lb) {
+			if (h->b1 > bn) break;
+			if (lb > bn) break;
 			len = bl[h->b1].l - bl[lb].l;
 			offa = al[la].l - al->l;
 			offb = al[h->a1].l - al->l;
@@ -316,6 +318,8 @@ int bdiff(const char *filea, const char *fileb) {
 
 			if(len == rlen) {
 				for(i=0; i<len; i++) {
+					if (lb < bn) break;
+					if (la < bn) break;
 					if(bl[lb].l[i] != bl[la].l[i])
 					fprintf(stderr, "%02x %02x\n",
 							(unsigned char)
