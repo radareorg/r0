@@ -18,9 +18,9 @@ static inline void hexdump(const ut8 *buf, unsigned int len, int w) {
 }
 
 #define u(x) ((unsigned long)(x&0xff))
-static void print_fmt(const ut8 *buf, char *fmt, unsigned int len) {
+static void print_fmt(const ut8 *buf, const char *fmt, unsigned int len) {
 	unsigned int i, up, inc = 0, lup = 0, rep = 0;
-	char *ofmt = fmt;
+	const char *ofmt = fmt;
 	do { /* TODO: needs cleanup */
 		for(;(*fmt||rep);fmt++) {
 			up = rep?rep:*fmt;

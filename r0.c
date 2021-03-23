@@ -11,7 +11,7 @@ static int cmdn = 0;
 static char **cmds = 0;
 static ut64 oldseek, curseek = 0LL;
 static int obsize, bsize = 256;
-static int r0_cmd(char *cmd); // XXX : recursive depenency
+int r0_cmd(const char *cmd); // XXX : recursive depenency
 #if defined(__WATCOMC__)
 #define HAVE_FTRUNCATE 0
 #define BUFSZ 1024
@@ -50,8 +50,8 @@ static int r0_interpret(const char *file) {
 	return 1;
 }
 
-static int r0_cmd(char *cmd) {
-	char *arg = cmd+1;
+int r0_cmd(const char *cmd) {
+	const char *arg = cmd+1;
 	SKIPSPACES(arg);
 	switch(*cmd) {
 	case 'q': return 0;
@@ -104,7 +104,7 @@ static int r0_prompt() {
 	return r0_cmd(at);
 }
 
-static int r0_open(const char *file) {
+int r0_open(const char *file) {
 	int ret = io_open(file);
 	if(ret != -1) {
 		oldseek = 0;

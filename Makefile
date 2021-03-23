@@ -22,7 +22,7 @@ r0d: r0d.o
 	${CC} ${CFLAGS} r0d.o -o r0d
 
 r0.js:
-	emcc -DUSE_DISASM_X32=1 -Os -o r0.js r0.c
+	emcc -s FORCE_FILESYSTEM=1 -lnodefs.js -s EXPORTED_FUNCTIONS='["_r0_open", "_r0_cmd"]' -DUSE_DISASM_X32=1 -Os -o r0.js r0.c
 
 r0.arm:
 	$(CC) -DUSE_DISASM_ARM=1 r0.c -o r0.arm

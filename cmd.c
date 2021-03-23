@@ -21,7 +21,7 @@
 #endif
 
 
-static int cmd_hexdump(char *arg) {
+static int cmd_hexdump(const char *arg) {
 	int len = bsize;
 	ut8 *buf = getcurblk(arg, &len);
 	if(buf && len>0) {
@@ -32,7 +32,7 @@ static int cmd_hexdump(char *arg) {
 	return 2;
 }
 
-static int cmd_print(char *arg) {
+static int cmd_print(const char *arg) {
 	ut8 *buf;
 	int len = bsize;
 	if(*arg) {
@@ -49,7 +49,7 @@ static int cmd_print(char *arg) {
 	return 1;
 }
 
-static int cmd_system(char *arg) {
+static int cmd_system(const char *arg) {
 	int len = bsize;
 	char str[1024];
 	ut8 *buf;
@@ -162,7 +162,7 @@ static int cmd_search(const char *arg) {
 	return 1;
 }
 
-static int cmd_bsize(char *arg) {
+static int cmd_bsize(const char *arg) {
 	if(!*arg) printf("%d\n", bsize);
 	else if(*arg=='+') bsize += (int)calc(arg+1);
 	else if(*arg=='-') bsize -= (int)calc(arg+1);
@@ -172,7 +172,7 @@ static int cmd_bsize(char *arg) {
 	return 1;
 }
 
-static int cmd_seek(char *arg) {
+static int cmd_seek(const char *arg) {
 	if(!*arg) printf("%"LLF"d\n", curseek);
 	else if(*arg=='+') curseek += calc(arg+1);
 	else if(*arg=='-') curseek -= calc(arg+1);
@@ -181,7 +181,7 @@ static int cmd_seek(char *arg) {
 	return 1;
 }
 
-static int cmd_dump(char *file) {
+static int cmd_dump(const char *file) {
 	int len = bsize;
 	ut8 *buf = getcurblk("", &len);
 	if(len<1 || buf) {
@@ -200,7 +200,7 @@ static int cmd_dump(char *file) {
 	return 1;
 }
 
-static int cmd_load(char *file) {
+static int cmd_load(const char *file) {
 	FILE *fd = fopen(file, "rb");
 	if(fd) {
 		void *buf = malloc(bsize);
@@ -246,7 +246,7 @@ static int cmd_write(const char *arg) {
 	return 1;
 }
 
-static int cmd_help(char *arg) {
+static int cmd_help(const char *arg) {
 	if(*arg) {
 		ut64 ret = r_num_calc (NULL, arg, NULL);
 		printf("0x%"LLF"x %"LLF"d 0%"LLF"o\n", ret, ret, ret);
@@ -270,7 +270,7 @@ static int cmd_help(char *arg) {
 	return 1;
 }
 
-static int cmd_resize(char *arg) {
+static int cmd_resize(const char *arg) {
 	ut8 *buf;
 	ut64 tail, n;
 	int i, len, ret = 0;
