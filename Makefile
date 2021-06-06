@@ -43,6 +43,13 @@ r0.wasm:
 r0.bc:
 	clang -emit-llvm -o r0.bc -c r0.c
 
+WASI_SDK=$(HOME)/Downloads/wasi/wasi-sdk-12.0
+WASI_SYSROOT=$(HOME)/Downloads/wasi/wasi-sysroot
+
+wasi:
+	export CC="$(WASI_SDK)/bin/clang --sysroot=$(WASI_SYSROOT) -DHAVE_SYSTEM=0" ; $(MAKE) clean ; $(MAKE)
+	mv r0 r0.wasm
+
 dist:
 	@if [ -z "${VERSION}" ]; then echo "Try: make dist VERSION=0.5" ; exit 1 ; fi
 	git clone . r0-${VERSION}
