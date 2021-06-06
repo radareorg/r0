@@ -137,10 +137,10 @@ int main(int argc, char **argv) {
 	argc++;
 	cmdn = 0;
 	scriptn = 0;
-	scripts = malloc(sizeof(const char*)*argc);
-	cmds = malloc(sizeof(const char*)*argc);
-	if(argc>1 && argv[1]) {
-		for(i=1; i<argc; i++) {
+	scripts = calloc(sizeof(const char*), argc);
+	cmds = calloc(sizeof(const char*), argc);
+	if(argc > 1 && argv[1]) {
+		for(i = 1; i < argc; i++) {
 			if(argv[i] && argv[i][0]=='-')
 				switch(argv[i][1]) {
 				case 'q': earlyquit = 1; break;
