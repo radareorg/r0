@@ -15,6 +15,8 @@ int r0_cmd(const char *cmd); // XXX : recursive depenency
 #if defined(__WATCOMC__)
 #define HAVE_FTRUNCATE 0
 #define BUFSZ 1024
+#elif __wasi__
+#define BUFSZ 128
 #else
 #define BUFSZ 128*1024
 #endif
