@@ -40,6 +40,9 @@ r0.com: # msdos
 r0.wasm:
 	emcc -Os -o r0.html r0.c
 
+r0.amiga ami:
+	/opt/amiga/bin/m68k-amigaos-gcc -mcrt=nix20 -o r0 r0.c
+
 r0.bc:
 	clang -emit-llvm -o r0.bc -c r0.c
 
