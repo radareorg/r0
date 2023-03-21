@@ -40,8 +40,15 @@ r0.com: # msdos
 r0.wasm:
 	emcc -Os -o r0.html r0.c
 
+# https://github.com/bebbo/amiga-gcc
+AMICC=/opt/amiga/bin/m68k-amigaos-gcc
+AMICFLAGS=-O0
 r0.amiga ami:
-	/opt/amiga/bin/m68k-amigaos-gcc -mcrt=nix20 -o r0 r0.c
+	$(AMICC) $(AMICFLAGS) -mcrt=nix20 -o r0.run r0.c
+	lha c r0-nix20.lha r0.run
+	rm -f r0.run
+	$(AMICC) $(AMICFLAGS) -DR0_NOENV=1 -DHAVE_FTRUNCATE=0 -mcrt=nix13 -o r0.run r0.c
+	lha c r0-nix13.lha r0.run
 
 r0.bc:
 	clang -emit-llvm -o r0.bc -c r0.c

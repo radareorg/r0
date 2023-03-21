@@ -10,7 +10,11 @@
 
 #define SKIPSPACES(x) for(;*(x)==' '||*(x)=='\t';x++) {};
 
-#if(plan9)
+#if(R0_NOENV)
+#define LLF "ll"
+#define setenv(x,y,z) //
+// static int setenv(char *var, char *val, int force) { return 0; }
+#elif(plan9)
 static int setenv(char *var, char *val, int force) {
 	char str[256];
 	snprintf(str, sizeof(str), "echo %s > /env/%s", var, val);
