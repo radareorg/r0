@@ -1,5 +1,5 @@
 CC?=gcc
-VERSION=0.8
+VERSION=0.9
 CCw32?=i486-mingw32-gcc
 CFLAGS+=-O0 -Wall -g
 #CFLAGS+=-DVERSION=\"${VERSION}\"
