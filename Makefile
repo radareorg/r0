@@ -1,5 +1,5 @@
 CC?=gcc
-VERSION=0.8
+VERSION=0.9
 CCw32?=i486-mingw32-gcc
 CFLAGS+=-O0 -Wall -g
 #CFLAGS+=-DVERSION=\"${VERSION}\"
@@ -42,7 +42,7 @@ r0.wasm:
 
 # https://github.com/bebbo/amiga-gcc
 AMICC=/opt/amiga/bin/m68k-amigaos-gcc
-AMICFLAGS=-O0
+AMICFLAGS=-Os -fomit-frame-pointer -msmall-code -m68000
 r0.amiga ami:
 	$(AMICC) $(AMICFLAGS) -mcrt=nix20 -o r0.run r0.c
 	lha c r0-nix20.lha r0.run
