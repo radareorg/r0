@@ -1,22 +1,25 @@
-/* cmd.c - MIT - Copyright 2009-2021 -- pancake /at/ nopcode /dot/ org */
+/* cmd.c - MIT - Copyright 2009-2023 -- pancake /at/ nopcode /dot/ org */
 
 #ifndef HAVE_SYSTEM
 #define HAVE_SYSTEM 1
 #endif
 
-#if USE_DISASM_X86
 #define USE_DISASM 1
+#if USE_DISASM_X86
 #include "dis/x86.c"
 #elif USE_DISASM_X32
-#define USE_DISASM 1
 #include "dis/x32.c"
 #elif USE_DISASM_8086
-#define USE_DISASM 1
 #include "dis/8086.c"
 #elif USE_DISASM_ARM
-#define USE_DISASM 1
 #include "dis/arm.c"
+#elif USE_DISASM_M68K
+// #define M68030 1
+// #define M68020 1
+// #define M68010 1
+#include "dis/m68k.c"
 #else
+#undef USE_DISASM
 #define USE_DISASM 0
 #endif
 
@@ -118,7 +121,6 @@ static int cmd_disasm(const char *arg) {
 #else
 static int cmd_disasm(const char *arg) {
 	return cmd_system("echo X | r0 -n $BLOCK | rasm2 -o $OFFSET -D -"); // |head -n $(($LINES-1))");
-	
 }
 #endif
 

@@ -6,7 +6,8 @@ CFLAGS+=-O0 -Wall -g
 PREFIX?=/usr/local
 DESTDIR?=
 
-ARCH=X32
+# ARCH=X32
+ARCH=M68K
 #ARCH=ARM
 #ARCH=NONE
 
@@ -43,9 +44,12 @@ r0.wasm:
 # https://github.com/bebbo/amiga-gcc
 AMICC=/opt/amiga/bin/m68k-amigaos-gcc
 AMICFLAGS=-Os -fomit-frame-pointer -msmall-code -m68000
+AMICFLAGS+=-DUSE_DISASM_M68K=1 -DUSE_DISASM=1
 r0.amiga ami:
+	rm -f r0.run
 	$(AMICC) $(AMICFLAGS) -mcrt=nix20 -o r0.run r0.c
 	lha c r0-nix20.lha r0.run
+ami13:
 	rm -f r0.run
 	$(AMICC) $(AMICFLAGS) -DR0_NOENV=1 -DHAVE_FTRUNCATE=0 -mcrt=nix13 -o r0.run r0.c
 	lha c r0-nix13.lha r0.run
